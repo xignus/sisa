@@ -1,0 +1,105 @@
+{{extend 'layout.html'}}
+
+<a href="#nuevoCertificado" role="button" class="btn btn-primary btn-large" data-toggle="modal"><i class="fa fa-plus fa-white"></i> Nuevo certificado</a>
+
+<hr />
+
+<table id="fbody" class="table table-hover table-striped">
+  <thead>
+    <th>Numero </th>
+    <th>Fecha de emision </th>
+    <th>Fecha de vencimiento </th>
+    <th>Detalle </th>
+    <th>Info Adicional</th>
+    <th>Editar </th>
+    <th>Imprimir </th>
+  </thead>
+  <tbody>
+    {{for certificado in certificados:}}
+    <tr>
+      <td>{{=certificado.numero}}</td>
+      <td>{{=certificado.fFumigacion}}</td>
+      <td>{{=certificado.fVencimiento}}</td>
+      <td><a href="#verCertificado{{=certificado.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-eye fa-white"></i> </a></td>
+      <td><a href="#infoAdicional{{=certificado.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-cogs fa-white"></i> </a></td>
+      <td><a href="#editarCertificado{{=certificado.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-pencil fa-white"></i> </a></td>
+      <td>{{=A(I(_class='fa fa-print fa-white'), '', _href=URL('consultas', 'imprimircertificado', args=(certificado.id)), _class='btn btn-primary')}}</td>
+    </tr>
+    {{pass}}
+  </tbody>
+</table>
+
+
+<!-- Agregar nuevo certificado -->
+<!-- Modal -->
+<div class="modal fade" id="nuevoCertificado" tabindex="-1" role="dialog" aria-labelledby="nuevoCertificadoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="nuevoCertificadoLabel">Nuevo Certificado</h4>
+      </div>
+      <div class="modal-body">
+        {{=nCertificado}}
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Ver certificados -->
+{{for certificado in certificados:}}
+<div class="modal fade" id="verCertificado{{=certificado.id}}" tabindex="-1" role="dialog" aria-labelledby="verCertificado{{=certificado.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verCertificado{{=certificado.id}}Label">Ver Certificado</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.read(db.certificados, certificado.id)}}
+	<h3>Info adicional</h3>
+	{{if db(db.adicionales.certificado==certificado.id).select():}}
+	{{=crud.read(db.adicionales, db(db.adicionales.certificado==certificado.id).select()[0].id)}}
+	{{pass}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+<!-- editar certificados -->
+{{for certificado in certificados:}}
+<div class="modal fade" id="editarCertificado{{=certificado.id}}" tabindex="-1" role="dialog" aria-labelledby="editarCertificado{{=certificado.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editarCertificado{{=certificado.id}}Label">Editar Certificado</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.update(db.certificados, certificado.id, next=URL('consultas','certificados', args=(request.args(0), request.args(1))), deletable=False)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+<!-- editar info adicional -->
+{{for certificado in certificados:}}
+<div class="modal fade" id="infoAdicional{{=certificado.id}}" tabindex="-1" role="dialog" aria-labelledby="infoAdicional{{=certificado.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="infoAdicional{{=certificado.id}}Label">Información adicional</h4>
+      </div>
+      <div class="modal-body">
+	{{if db(db.adicionales.certificado==certificado.id).select():}}
+	{{=crud.update(db.adicionales, db(db.adicionales.certificado==certificado.id).select()[0].id, next=URL('consultas','certificados', args=(request.args(0), request.args(1))), deletable=False)}}
+	{{pass}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{=response.title}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{=URL('static','css/bootstrap2.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <!-- Add custom CSS here -->
+    <link href="{{=URL('static','css/sb-admin.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{=URL('static','font-awesome/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{=URL('static','/css/xignus.css')}}">
+    <!-- Page Specific CSS -->
+    {{include 'web2py_ajax.html'}}
+    <!-- include stylesheets -->
+    {{
+    response.files.insert(0,URL('static','css/web2py.css'))
+    response.files.insert(1,URL('static','css/bootstrap.min.css'))
+    response.files.insert(2,URL('static','css/bootstrap-responsive.min.css'))
+    response.files.insert(3,URL('static','css/web2py_bootstrap.css'))
+    }}
+
+  </head>
+
+  <body>
+
+    <div class="borde">
+      {{include}}
+    </div>
+
+
+
+
+
+    <!-- JavaScript -->
+    <script src="{{=URL('static','js/jquery-1.10.2.js')}}"></script>
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+    <!-- Page Specific Plugins -->
+    <script src="{{=URL('static','js/tablesorter/jquery.tablesorter.js')}}"></script>
+    <script src="{{=URL('static','js/tablesorter/tables.js')}}"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+          $('form input').addClass('form-control');
+          $('.w2p_fw').css('width', '100%');
+          $('form input').addClass('input-xlarge');
+          $('form select').addClass('form-control');
+          $('input[type="submit"]').removeClass('form-control');
+          $('input[type="submit"]').addClass('btn-primary');
+          $('input[type="submit"]').addClass('btn-block');
+      });
+    </script>
+  </body>
+</html>

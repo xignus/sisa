@@ -1,0 +1,115 @@
+{{extend 'layout.html'}}
+
+<div class="inline">
+  <p>
+  <a href="#nuevoFumigador" role="button" class="btn btn-primary btn-large" data-toggle="modal"><i class="fa fa-plus icon-white"></i> Nuevo fumigador</a></p>
+</div>
+
+<hr />
+
+<table id='fbody' class="table table-striped table-hover table-condensed">
+  <thead>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Ultimos trabajos</th>
+    <th>Ver</th>
+    <th>Editar</th>
+  </thead>
+  <tbody>
+    {{for fumigador in fumigadores:}}
+    <tr>
+      <td>{{=fumigador.nombre}}</td>
+      <td>{{=fumigador.apellido}}</td>
+      <td><a href="#ultimosTrabajos{{=fumigador.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-wrench icon-white"></i></a></td>
+      <td><a href="#verFumigador{{=fumigador.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-eye icon-white"></i></a></td>
+      <td><a href="#editarFumigador{{=fumigador.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-pencil icon-white"></i></a></td>
+    </tr>
+    {{pass}}
+  </tbody>
+</table>
+
+
+
+<!-- Agregar nuevo fumigador -->
+<div class="modal fade" id="nuevoFumigador" tabindex="-1" role="dialog" aria-labelledby="nuevoFumigadorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="nuevoFumigadorLabel">Nuevo Fumigador</h4>
+      </div>
+      <div class="modal-body">
+	{{=nFumigador}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ver fumigadores -->
+{{for fumigador in fumigadores:}}
+<div class="modal fade" id="verFumigador{{=fumigador.id}}" tabindex="-1" role="dialog" aria-labelledby="verFumigador{{=fumigador.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verFumigador{{=fumigador.id}}Label">Informacion del fumigador</h4>
+      </div>
+      <div class="modal-body">
+	    {{=crud.read(db.fumigadores, fumigador.id)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+<!-- Editar fumigadores -->
+{{for fumigador in fumigadores:}}
+<div class="modal fade" id="editarFumigador{{=fumigador.id}}" tabindex="-1" role="dialog" aria-labelledby="editarFumigador{{=fumigador.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editarFumigador{{=fumigador.id}}Label">Informacion del fumigador</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.update(db.fumigadores, fumigador.id, next=URL('default','fumigadores'), deletable=False)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+
+<!-- Ultimos trabajos -->
+{{for fumigador in fumigadores:}}
+<div class="modal fade" id="ultimosTrabajos{{=fumigador.id}}" tabindex="-1" role="dialog" aria-labelledby="ultimosTrabajos{{=fumigador.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="ultimosTrabajos{{=fumigador.id}}Label">5 ultimos trabajos</h4>
+      </div>
+      <div class="modal-body">
+	<table class="table table-striped table-hover table-condensed">
+	  <thead>
+	    <th>Establecimiento</th>
+	    <th>Fecha</th>
+	  </thead>
+	  <tbody id='fbody'>
+	    {{for trabajo in (db((db.certificados.fumigador==fumigador.id)&(db.certificados.establecimiento==db.establecimientos.id)).select()):}}
+	    <tr>
+	      <td>{{=trabajo.establecimientos.nombre}}</td>
+	      <td>{{=trabajo.certificados.fFumigacion}}</td>
+	    </tr>
+	    {{pass}}
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+
+
+    

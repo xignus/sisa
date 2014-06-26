@@ -1,0 +1,35 @@
+{{extend 'layout.html'}}
+{{import datetime}}
+
+
+<table id="fbody" class="table table-striped table-hover table-condensed">
+  <thead>
+    <th>Cliente </th>
+    <th>Establecimiento </th>
+    <th>Vencimiento </th>
+    <th>Estado </th>
+  </thead>
+  <tbody>
+    {{for establecimiento in establecimientos:}}
+        {{pendiente=db(db.certificados.establecimiento==establecimiento.establecimientos.id).select(orderby=~db.certificados.fVencimiento).last()}}
+        {{if pendiente:}}
+            {{if ((pendiente.fVencimiento-datetime.date.today()).days<=7)&((pendiente.fVencimiento-datetime.date.today()).days>0):}}
+            <tr class="warning">
+               <td>{{=establecimiento.clientes.nombre +" "+ establecimiento.clientes.apellido}}</td>
+	       <td>{{=establecimiento.establecimientos.nombre}}</td>
+	       <td>{{=pendiente.fVencimiento}}</td>
+	       <td>Por vencer</td>
+	    </tr>
+            {{elif ((pendiente.fVencimiento-datetime.date.today()).days<=0):}}
+	   <tr class="danger">
+	       <td>{{=establecimiento.clientes.nombre +" "+ establecimiento.clientes.apellido}}</td>
+	       <td>{{=establecimiento.establecimientos.nombre}}</td>
+	       <td>{{=pendiente.fVencimiento}}</td>
+	       <td>Vencido</td>
+	   </tr>
+	    {{pass}}
+	 {{pass}}
+	 {{pass}}
+    {{pass}}
+  </tbody>
+</table>    

@@ -1,0 +1,7 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,True}}
+{{extend 'layout.html'}}
+
+
+{{block right_sidebar}}
+<h1>Certificados por vencer</h1>
+{{end}}

@@ -1,0 +1,71 @@
+{{extend 'layout.html'}}
+
+{{=cupon}}
+
+<div class="text-center">
+  <hr />
+  <div class="form-group input-group col-lg-4 text-center">
+    <label class="form-control">Saldo</label> 
+    <span class="input-group-addon">$</span>
+    <input type="text" id="saldo" class="form-control"></input>    
+  </div>
+  <hr />
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+	$("#cobros_pagado").attr("readonly",true);
+	$("#saldo").attr("readonly",true);
+	$("#cobros_pago").attr("autocomplete","OFF");
+    
+        if (isNaN($("#cobros_pagado").val())){
+        }
+        else{
+            var pago=$("#cobros_pagado").val();
+        }
+	
+
+	if ($("#cobros_importe").val()>0){
+	    $("#cobros_pago").focus();
+	}
+	else{
+	    $("#cobros_importe").focus();
+	}
+	
+	$("#saldo").val((parseFloat($("#cobros_importe").val())-parseFloat(pago)).toFixed(2));
+	$("#cobros_pago").val('');
+	
+	$("#cobros_pago").bind("keyup",function(){
+	    var pagado=$("#cobros_pagado").val();
+	    
+	    if (($(this).val()>=0) | ($(this).val()<0)){
+		$("#cobros_pagado").val((parseFloat($("#cobros_pago").val())+parseFloat(pago)).toFixed(2)).trigger("change");
+		console.log("no se")
+	    }
+	    else if (!$(this).val()){
+		$(this).val(0);
+		$("#cobros_pagado").val(parseFloat($(this).val())).trigger("change");
+	        alert("bleh");
+	    }
+	});
+        aux=$("#saldo").val();
+	$("#cobros_pagado").change(function(){
+            
+	    if (isNaN($(this).val())){
+		$(this).val(pago);
+		$("#saldo").val(aux);
+		console.log("vacio?")
+	    }
+	    else if ((parseFloat($("#cobros_importe").val())-parseFloat($("#cobros_pagado").val()))<0) {
+		alert("El importe cancelado no puede superar el saldo adeudado!");
+		$("#cobros_pago").val(0).trigger("keyup");
+		$("#saldo").val(aux);
+										
+	    }
+	    else{
+		$("#saldo").val((parseFloat($("#cobros_importe").val())-parseFloat($("#cobros_pagado").val())).toFixed(2));
+	        console.log("yo soy la ultima evaluacion");
+	    }
+	});
+    });
+</script>

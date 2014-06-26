@@ -1,0 +1,66 @@
+{{extend 'layout.html'}}
+
+
+<table id='fbody' class="table table-striped table-hover">
+  <thead>
+    <th>Certificado </th>
+    <th>Fecha </th>
+    <th>Establecimiento </th>
+    <th>Importe </th>
+    <th>Pagado </th>
+    <th>Detalle </th>
+    <th>Editar </th>
+  </thead>
+  <tbody>
+    {{for cobro in cobros:}}
+        {{if ((cobro.cobros.pagado==cobro.cobros.importe)and(cobro.cobros.importe>0)):}}
+            <tr class="success">
+	      <td>{{=cobro.certificados.numero}}</td>
+	      <td>{{=cobro.certificados.fFumigacion}}</td>
+	      <td>{{=cobro.establecimientos.nombre}}</td>
+	      <td>$ {{=cobro.cobros.importe}}</td>
+	      <td>$ {{=cobro.cobros.pagado or '0.0'}}</td>
+	      <td><a href="#verCobro{{=cobro.cobros.id}}" role="button" class="btn btn-success" data-toggle="modal"><i class="fa fa-eye fa-white"></i> Ver</a></td>
+	      <td><a href="{{=URL('consultas','actualizarCobro', args=(cobro.cobros.id, request.args(0)))}}" role="button" class="btn btn-success" data-toggle="modal"><i class="fa fa-pencil fa-white"></i> Pagado</a></td>
+	    </tr>
+	{{elif ((cobro.cobros.pagado>0)and(cobro.cobros.importe>0)):}}
+	    <tr class="warning">
+	      <td>{{=cobro.certificados.numero}}</td>
+	      <td>{{=cobro.certificados.fFumigacion}}</td>
+	      <td>{{=cobro.establecimientos.nombre}}</td>
+	      <td>$ {{=cobro.cobros.importe}}</td>
+	      <td>$ {{=cobro.cobros.pagado or '0.0'}}</td>
+	      <td><a href="#verCobro{{=cobro.cobros.id}}" role="button" class="btn btn-warning" data-toggle="modal"><i class="fa fa-eye fa-white"></i> Ver</a></td>
+	      <td><a href="{{=URL('consultas','actualizarCobro', args=(cobro.cobros.id, request.args(0)))}}" role="button" class="btn btn-warning" data-toggle="modal"><i class="fa fa-pencil fa-white"></i> Saldo pendiente ($ {{=cobro.cobros.importe - cobro.cobros.pagado}})</a></td>
+	    </tr>
+	{{else:}}
+	    <tr class="danger">
+	      <td>{{=cobro.certificados.numero}}</td>
+	      <td>{{=cobro.certificados.fFumigacion}}</td>
+	      <td>{{=cobro.establecimientos.nombre}}</td>
+	      <td>$ {{=cobro.cobros.importe}}</td>
+	      <td>$ {{=cobro.cobros.pagado or '0.0'}}</td>
+	      <td><a href="#verCobro{{=cobro.cobros.id}}" role="button" class="btn btn-danger" data-toggle="modal"><i class="fa fa-eye fa-white"></i> Ver</a></td>
+	      <td><a href="{{=URL('consultas','actualizarCobro', args=(cobro.cobros.id, request.args(0)))}}" role="button" class="btn btn-danger"><i class="fa fa-pencil fa-white"></i> Adeudado</a></td>
+	    </tr>
+        {{pass}}
+    {{pass}}
+  </tbody>
+</table>
+
+<!-- ver cobros -->
+{{for cobro in cobros:}}
+<div class="modal fade" id="verCobro{{=cobro.cobros.id}}" tabindex="-1" role="dialog" aria-labelledby="verCobro{{=cobro.cobros.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verCobro{{=cobro.cobros.id}}Label">Informacion del pago</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.read(db.cobros, cobro.cobros.id)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}

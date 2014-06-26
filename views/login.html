@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <link href="../../assets/ico/favicon.ico" rel="shortcut icon">
+    <script type="text/javascript" src="{{=URL('static','js/jquery.js')}}"></script>
+    <title>{{=response.title or ''}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.css')}}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{{=URL('static','css/signin.css')}}">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="text-center container">
+      {{include}}
+      {{=IMG(_src=URL('static','images/logo.png'), _alt='S.I.S.A')}}
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+	 ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+       $("form").attr("role","form");
+       $("form").addClass("form-signin");
+       $("input").addClass("form-control");
+       $(".password").addClass("form-control");
+       $("input[type='submit']").addClass("btn btn-primary");
+       $(".btn").addClass("btn btn-primary");
+      });
+    </script>
+
+  </body>
+</html>

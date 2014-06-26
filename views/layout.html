@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{=response.title}}</title>
+
+    <!-- Page Specific CSS -->
+    
+    {{include 'web2py_ajax.html'}}
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{=URL('static','css/bootstrap.css')}}" rel="stylesheet">
+    <link href="{{=URL('static','css/jquery.dataTables.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <!-- Add custom CSS here -->
+    <link href="{{=URL('static','css/sb-admin.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{=URL('static','font-awesome/css/font-awesome.min.css')}}">
+    <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet">
+    <link href="{{=URL('static','css/xignus.css')}}" rel="stylesheet">
+    <link href="{{=URL('static','css/css/ui-lightness/jquery-ui-1.10.4.css')}}" rel="stylesheet">
+    
+    <!-- include stylesheets -->
+    {{
+    response.files.insert(0,URL('static','css/web2py.css'))
+    response.files.insert(1,URL('static','css/bootstrap.min.css'))
+    response.files.insert(2,URL('static','css/bootstrap-responsive.min.css'))
+    response.files.insert(3,URL('static','css/web2py_bootstrap.css'))
+    response.files.insert(4,URL('static','css/xignus.css'))
+    }}
+
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+       <div class="flash">{{=response.flash or ''}}</div>
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          {{=response.logo or ''}}
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+            <li>{{=A(I(_class='fa fa-home icon-white'),' Inicio', _href=URL('default','index'))}}</li>
+            <li>{{=A(I(_class='fa fa-user icon-white'),' Clientes', _href=URL('default','clientes'))}}</li>
+	    <li>{{=A(I(_class='fa fa-gavel icon-white'),' Cobros pendientes', _href=URL('default','cobros'))}}</li>
+	    <li>{{=A(I(_class='fa fa-bell icon-white'),' Proximos vencimientos', _href=URL('default','vencimientos'))}}</li>
+	    <li>{{=A(I(_class='fa fa-group icon-white'),' Fumigadores', _href=URL('default','fumigadores'))}}</li>
+          </ul>
+
+	  <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+      
+      <div id="page-wrapper">
+	{{if response.title:}}
+        <div class="span12">
+          <div class="page-header">
+            <h1>
+              {{=response.title}}
+              <small>{{=response.subtitle or ''}}</small>
+            </h1>
+          </div>
+        </div>
+	{{pass}}
+	{{include}}
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    <!-- JavaScript -->
+    <script src="{{=URL('static','js/jquery-1.10.2.js')}}"></script>
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+    <script src="{{=URL('static','js/jquery.dataTables.js')}}"></script>
+    <script src="{{=URL('static','js/dataTables.bootstrap.js')}}"></script>
+    <script src="{{=URL('static','js/jquery-ui-1.10.4.js')}}"></script>
+    <!-- Page Specific Plugins -->
+    <script src="{{=URL('static','js/tablesorter/jquery.tablesorter.js')}}"></script>
+    <script src="{{=URL('static','js/tablesorter/tables.js')}}"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+          $('form input').addClass('form-control');
+          $('.w2p_fw').css('width', '100%');
+          $('.w2p_fc').css({'color': 'grey', 'font-size':'10px', 'font-style':'italic'});
+          $('form input').addClass('input-xlarge');
+          $('form select').addClass('form-control');
+          $('input[type="submit"]').removeClass('form-control');
+          $('input[type="submit"]').addClass('btn-primary');
+
+	  $('#fbody').dataTable(
+	      {
+		  "language": {
+		      "url": "{{=URL('static','js/Spanish.json')}}"
+		  }
+	      });
+      });
+    </script>
+  </body>
+</html>

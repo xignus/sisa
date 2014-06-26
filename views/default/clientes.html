@@ -1,0 +1,85 @@
+{{extend 'layout.html'}}
+
+<div class="inline">
+  <p>
+  <a href="#nuevoCliente" role="button" class="btn btn-primary btn-large" data-toggle="modal"><i class="fa fa-plus icon-white"></i> Nuevo cliente</a></p>
+</div>
+
+
+
+<hr />
+
+<table id='fbody' class="table table-striped table-hover table-condensed">
+  <thead>
+    <th>Nombre </th>
+    <th>Apellido </th>
+    <th>Domicilio </th>
+    <th>Establecimientos</th>
+    <th>Cobros</th>
+   <th></th>
+   <th></th>
+  </thead>
+  <tbody>
+    {{for cliente in clientes:}}
+    <tr>
+      <td>{{=cliente.nombre}}</td>
+      <td>{{=cliente.apellido}}</td>
+      <td>{{=cliente.domicilio}}</td>
+      <td style="text-align:center">{{=A(I(_class='fa fa-wrench icon-white'),'', _href=URL('consultas','establecimientos', args=(cliente.id)), _class='btn btn-primary')}}</td>
+      <td>{{=A(I(_class='fa fa-money icon-white'),'', _href=URL('consultas','cobros', args=(cliente.id)), _class='btn btn-primary')}}</td>
+      <td><a href="#verCliente{{=cliente.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-eye icon-white"></i> Ver cliente</a></td>
+      <td><a href="#editarCliente{{=cliente.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-pencil icon-white"></i> Editar cliente</a></td>
+    </tr>
+    {{pass}}
+  </tbody>
+</table>
+
+
+<!-- Agregar nuevo cliente -->
+<div class="modal fade" id="nuevoCliente" tabindex="-1" role="dialog" aria-labelledby="nuevoClienteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="nuevoClienteLabel">Nuevo Cliente</h4>
+      </div>
+      <div class="modal-body">
+	{{=nCliente}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ver clientes -->
+{{for cliente in clientes:}}
+<div class="modal fade" id="verCliente{{=cliente.id}}" tabindex="-1" role="dialog" aria-labelledby="verCliente{{=cliente.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verCliente{{=cliente.id}}Label">Informacion del cliente</h4>
+      </div>
+      <div class="modal-body">
+	    {{=crud.read(db.clientes, cliente.id)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+<!-- Editar clientes -->
+{{for cliente in clientes:}}
+<div class="modal fade" id="editarCliente{{=cliente.id}}" tabindex="-1" role="dialog" aria-labelledby="editarCliente{{=cliente.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editarCliente{{=cliente.id}}Label">Informacion del cliente</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.update(db.clientes, cliente.id, next=URL('default','clientes'))}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}

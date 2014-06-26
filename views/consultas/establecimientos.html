@@ -1,0 +1,79 @@
+{{extend 'layout.html'}}
+
+<div class="inline">
+  <p>
+  <a href="#nuevoEstablecimiento" role="button" class="btn btn-primary btn-large" data-toggle="modal"><i class="fa fa-plus icon-white"></i> Nuevo establecimiento</a></p>
+</div>
+
+<hr />
+
+<table id='fbody' class="table table-striped table-hover table-condensed">
+  <thead>
+    <th>Nombre </th>
+    <th>Rubro </th>
+    <th>Certificados </th>
+    <th></th>
+    <th></th>
+  </thead>
+  <tbody>
+    {{for establecimiento in sucursales:}}
+    <tr>
+      <td>{{=establecimiento.nombre}}</td>
+      <td>{{=establecimiento.rubro}}</td>
+      <td style="text-align:center">{{=A(I(_class='fa fa-file icon-white'),'', _href=URL('consultas','certificados', args=(establecimiento.id, request.args(0))), _class='btn btn-primary')}}</td>
+      <td><a href="#verEstablecimiento{{=establecimiento.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-eye icon-white"></i> Ver establecimiento</a></td>
+      <td><a href="#editarEstablecimiento{{=establecimiento.id}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="fa fa-pencil icon-white"></i> Editar establecimiento</a></td>
+    </tr>
+    {{pass}}
+  </tbody>
+</table>
+
+
+<!-- Agregar nuevo establecimiento -->
+<div class="modal fade" id="nuevoEstablecimiento" tabindex="-1" role="dialog" aria-labelledby="nuevoEstablecimientoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="nuevoEstablecimientoLabel">Nuevo Establecimiento</h4>
+      </div>
+      <div class="modal-body">
+	{{=nSucursal}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ver establecimientos -->
+{{for establecimiento in sucursales:}}
+<div class="modal fade" id="verEstablecimiento{{=establecimiento.id}}" tabindex="-1" role="dialog" aria-labelledby="verEstablecimiento{{=establecimiento.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verEstablecimiento{{=establecimiento.id}}Label">Informacion del establecimiento</h4>
+      </div>
+      <div class="modal-body">
+	    {{=crud.read(db.establecimientos, establecimiento.id)}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}
+
+<!-- Editar establecimientos -->
+{{for establecimiento in sucursales:}}
+<div class="modal fade" id="editarEstablecimiento{{=establecimiento.id}}" tabindex="-1" role="dialog" aria-labelledby="editarEstablecimiento{{=establecimiento.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editarEstablecimiento{{=establecimiento.id}}Label">Informacion del establecimiento</h4>
+      </div>
+      <div class="modal-body">
+	{{=crud.update(db.establecimientos, establecimiento.id, next=URL('consultas','establecimientos', args=(request.args(0))))}}
+      </div>
+    </div>
+  </div>
+</div>
+{{pass}}

@@ -1,0 +1,121 @@
+{{extend 'certificado.html'}}
+<table class="certificado">
+  {{for dato in certificado:}}
+  <tbody>
+    <tr>
+      <td class="numero" colspan="6">
+	<h4><span><strong>Certificado N° </strong> {{=dato.certificados.numero}}</span></h4>
+      </td>
+    <tr>
+      
+    <tr>
+      <td class="encabezado" colspan="6"><h1>SISA Fumigaciones</h1><h4>Sistema Integral de Saneamiento Ambiental</h4></td>
+    </tr>
+
+    <tr>
+      <td class="encabezado" colspan="6">
+	<p>PADRON Nº 68.023/03 - CAM-SLA50.429/03 -CUIT: 27-02898301-3<br />
+	  ADMINISTRACION  &  VENTAS : DIARIO  DE  CUYO  Nº  2162 <br />
+	  BARRIO  EL  TRIBUNO  -  CP  4400  -  SALTA  CAPITAL -TELEFONOS : 0387-4248560   --  CEL  0387-154038698
+	</p>
+      </td>
+    </tr>
+    
+    <tr>
+      <td><strong>Fecha de aplicación: </strong> </td>
+      <td colspan="2" class="contenido">{{=dato.certificados.fFumigacion}}</td>
+      <td><strong>Hora: </strong></td>
+      <td colspan="2" class="contenido">{{=dato.certificados.hora}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Nombre y Apellido: </strong></td>
+      <td colspan="2" class="contenido">{{=dato.clientes.nombre+" "+dato.clientes.apellido}}</td>
+      <td><strong>Establecimiento: </strong></td>
+      <td colspan="2" class="contenido">{{=dato.establecimientos.nombre}}</td>
+    </tr>
+      
+    <tr>
+      <td><strong>Domicilio: </strong></td>
+      <td class="contenido">{{=dato.establecimientos.domicilio}}</td>
+
+      <td><strong>Localidad: </strong></td>
+      <td class="contenido">{{=dato.establecimientos.localidad}}</td>
+
+      <td><strong>Telefono: </strong></td>
+      <td class="contenido">{{=dato.establecimientos.telefono}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Rubro: </strong></td>
+      <td colspan="5" class="contenido">{{=dato.establecimientos.rubro}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Tratamiento: </strong></td>
+      <td colspan="5" class="contenido">
+	{{for elemento in dato.certificados.tratamiento.split("|"):}}
+	  {{if len(elemento):}}
+	   <span class="separado"><i class="fa-check"></i> {{=elemento}}</span>
+	  {{pass}}
+	{{pass}}
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Vect. Trat.:</strong></td>
+      <td colspan="5" class="contenido">
+	{{for elemento in dato.certificados.vectTrat.split("|"):}}
+	  {{if len(elemento):}}
+	    <span class="separado"><i class="fa-check"></i> {{=elemento}}</span>
+	  {{pass}}
+	{{pass}}
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Superficie Tratada: </strong></td>
+      <td colspan="2" class="contenido">{{=dato.establecimientos.superficie}} m2</td>
+      <td><strong>Veneno Clase: </strong></td>
+      <td colspan="2" class="contenido">{{=dato.certificados.venenoClase}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Droga Usada: </strong></td>
+      <td colspan="5" class="contenido"><i class="fa-check"></i> {{=dato.certificados.drogaUsada}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Antidoto:</strong></td>
+      <td colspan="5"class="contenido">{{=dato.adicionales.antidoto}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Recomendaciones:</strong></td>
+      <td colspan="5" class="contenido">{{=dato.adicionales.recomendaciones}}</td>
+    </tr>
+
+    <tr>
+     <td colspan=6> <p><span class="resaltar">La firma brinda garantía de satisfacción, validez 30 días corridos posteriores al servicio, sin excepción.</span> GARANTIA  SUJETA  A INSPECCION TECNICA , A LAS  CONDICIONES DE  HIGIENE  ,EDILICIAS , CLIMATICAS , AL GRADO DE INFESTACION Y AL TIPO DE PLAGA – LA EFECTIVIDAD DEL SERVICIO NO DEPENDE DE LAS FECHAS DE APLICACIÓN Y VENCIMIENTO DE ESTE  CERTIFICADO , SOLO DEL PLAN DE TRABAJO ACORDADO. COMERCIOS DONDE SE EXPENDA, ELABORE ,FRACCIONE Y ALMACENE  ALIMENTOS ,LA  CERTIFICACION  DE  SERVICIOS  NO SERA  SUPERIOR  A  60  DIAS, SEGÚN  ORDENANZA Nº 12.157/04-DECRETO  Nº 917/08 DE LA MUNICIPALIDAD DE  LA CIUDAD  DE  SALTA
+      </p></td>
+    </tr>
+
+    <tr>
+      <td class="observaciones"><strong>Observaciones:</strong></td>
+      <td colspan="5" class="contenido">{{=dato.adicionales.observaciones}}</td>
+    </tr>
+
+    <tr>
+      <td><strong>Fecha de Vencimiento</strong></td>
+      <td colspan="2" class="contenido text-center"><strong class="resaltar">{{=dato.certificados.fVencimiento}}</strong></td>
+      <td><strong>Proximo Tratamiento: </strong></td>
+      <td colspan="2" class="contenido text-center"><strong class="resaltar">{{=dato.certificados.fVencimiento}}</strong></td>
+    </tr>
+
+    <tr>
+      <td class="firma" colspan="3"><strong>............................... <br />Recibi conforme</strong></td>
+      <td class="firma" colspan="3"><strong>............................... <br /> Por S.I.S.A. <br /> Gerente o Director Técnico</strong></td>
+    </tr>
+  </tbody>
+  {{pass}}
+</table>
